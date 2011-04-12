@@ -15,6 +15,18 @@
     </requirement>
     <requirement>
       <requirement>
+        <dependency name="curl-multi" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
+      </requirement>
+      <source from="Gemfile" />
+    </requirement>
+    <requirement>
+      <requirement>
+        <dependency name="fakefs" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
+      </requirement>
+      <source from="Gemfile" />
+    </requirement>
+    <requirement>
+      <requirement>
         <dependency name="jeweler" version="1.5.2" bound="LATEST_IN_BRANCH" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
@@ -39,25 +51,32 @@
     </requirement>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.bundle" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] bundler (v1.0.12, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/bundler-1.0.12)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rspec-2.3.0)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rcov (v0.9.9, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rcov-0.9.9)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] cucumber (v0.10.2, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/cucumber-0.10.2)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] jeweler (v1.5.2, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/jeweler-1.5.2)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] json (v1.5.1, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/json-1.5.1)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-mocks (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rspec-mocks-2.3.0)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] diff-lcs (v1.1.2, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/diff-lcs-1.1.2)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-expectations (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rspec-expectations-2.3.0)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rake-0.8.7)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] git (v1.2.5, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/git-1.2.5)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] builder (v3.0.0, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/builder-3.0.0)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-core (v2.3.1, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/rspec-core-2.3.1)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] term-ansicolor (v1.0.5, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/term-ansicolor-1.0.5)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] gherkin (v2.3.5, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/gherkin-2.3.5)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] timecop (v0.3.5, /usr/local/rvm/gems/ruby-1.9.2-p180@global/gems/timecop-0.3.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] bundler (v1.0.12, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/bundler-1.0.12)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] jeweler (v1.5.2, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/jeweler-1.5.2)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rake-0.8.7)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] git (v1.2.5, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/git-1.2.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] cucumber (v0.10.2, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/cucumber-0.10.2)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] json (v1.5.1, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/json-1.5.1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] diff-lcs (v1.1.2, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/diff-lcs-1.1.2)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] builder (v3.0.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/builder-3.0.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] term-ansicolor (v1.0.5, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/term-ansicolor-1.0.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] gherkin (v2.3.5, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/gherkin-2.3.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rspec-2.3.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rcov (v0.9.9, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rcov-0.9.9)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] curl-multi (v0.2, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/curl-multi-0.2)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] timecop (v0.3.5, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/timecop-0.3.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] RubyInline (v3.9.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/RubyInline-3.9.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] curb (v0.7.15, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/curb-0.7.15)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-core (v2.3.1, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rspec-core-2.3.1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-mocks (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rspec-mocks-2.3.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-expectations (v2.3.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/rspec-expectations-2.3.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] fakefs (v0.3.1, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/fakefs-0.3.1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] ZenTest (v4.5.0, /usr/local/rvm/gems/ruby-1.9.2-p180/gems/ZenTest-4.5.0)" level="application" />
   </component>
 </module>
 
