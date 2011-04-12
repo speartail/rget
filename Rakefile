@@ -13,10 +13,10 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "rget"
-  gem.homepage = "http://github.com/peterhoeg/rget"
-  gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.homepage = "http://github.com/nwt/rget"
+  gem.license = "GPL3"
+  gem.summary = %Q{Platform agnostic CLI interface to various downloaders}
+  gem.description = %Q{rget providers a CLI interface to various downloaders - we currently support axel, curl, wget and plain Ruby}
   gem.email = "p.hoeg@northwind.sg"
   gem.authors = ["Peter Hoeg"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
