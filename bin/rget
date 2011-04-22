@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby -*-
 
-require 'rget/cli'
+require 'rget'
 
 RGet::CLI.run(ARGV)

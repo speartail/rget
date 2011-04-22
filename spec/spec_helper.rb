@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec'
 require 'rget'
-require 'fakefs/spec_helpers'
+#require 'fakefs/spec_helpers'
 require 'tempfile'
 require 'tmpdir'
 
@@ -12,4 +12,16 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   
+end
+
+class Tempfile
+
+def self.name(prefix = 'rspec')
+  f = Tempfile.new(prefix)
+  p = f.path
+  f.close!
+  FileUtils.remove_entry_secure(p) if File.exists?(p)
+  return p
+end
+
 end
