@@ -28,6 +28,8 @@ module RGet
         rescue LoadError
           return false
         end
+        when :ruby
+        return true
       end
       true
     end
