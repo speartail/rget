@@ -68,25 +68,24 @@ describe RGet::Downloader do
   end
 
   describe RGet::AxelDownloader do
-
-    before(:each) do
-      @dl = RGet::AxelDownloader.new(@url, @file_does_not_exist)
-    end
+    subject {
+      RGet::AxelDownloader.new(@url, @file_does_not_exist)
+    }
 
     it 'should be creatable' do
-      @dl.should_not be_nil
+      subject.should_not be_nil
     end
 
     describe 'being called' do
 
-      it 'should happen in a shell' do
+      it 'should run in a shell' do
         Kernel.should_receive(:system).with("#{RGet::AxelDownloader::BIN} '#{@url}' -a -o '#{@file_does_not_exist}'")
-        @dl.download
+        subject.download
       end
 
-      it 'should handle the :quiet parameter' do
+      it 'should handle the :progress parameter' do
         @dl = RGet::AxelDownloader.new(@url, @file_does_not_exist, { :progress => true })
-        Kernel.should_receive(:system).with("#{RGet::AxelDownloader::BIN} '#{@url}' -q -o '#{@file_does_not_exist}'")
+        @dl.arguments.include?('-a').should be_true
         @dl.download
       end
 
@@ -96,24 +95,28 @@ describe RGet::Downloader do
 
   describe RGet::WGetDownloader do
 
-    before(:each) do
-      @dl = RGet::WGetDownloader.new(@url, @file_does_not_exist)
-    end
+    subject {
+      RGet::WGetDownloader.new(@url, @file_does_not_exist)
+    }
 
     it 'should be creatable' do
-      @dl.should_not be_nil
+      subject.should_not be_nil
     end
 
     describe 'being called' do
 
       it 'should happen in a shell' do
-        Kernel.should_receive(:system).with("#{RGet::WGetDownloader::BIN} -c '#{@url}' -O '#{@file_does_not_exist}'")
-        @dl.download
+        Kernel.should_receive(:system).with("#{RGet::WGetDownloader::BIN} '#{@url}' -c -O '#{@file_does_not_exist}'")
+        subject.download
       end
 
-      it 'should handle the :quiet parameter' do
+      it 'should by default ask wget to continue existing downloads' do
+        subject.arguments.include?('-c').should be_true
+      end
+
+      it 'should handle the :progress parameter' do
         @dl = RGet::WGetDownloader.new(@url, @file_does_not_exist, { :progress => true })
-        Kernel.should_receive(:system).with("#{RGet::WGetDownloader::BIN} -c '#{@url}' -q -O '#{@file_does_not_exist}'")
+        @dl.arguments.include?('-q').should be_false
         @dl.download
       end
 

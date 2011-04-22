@@ -42,9 +42,9 @@ module RGet
       rescue
         raise RGet::AppError, "Unable to create destination directory. Aborting..."
       end
-      pp [ @url, @file ]
-      exit
       @options = OpenStruct.new(({:quiet => false, :overwrite => false}.merge(options)))
+      @arguments = []
+      build_arguments
     end
 
     # Perform the download
@@ -53,6 +53,16 @@ module RGet
     def download
       File.safe_unlink(@file) if File.exists?(@file) && @options.overwrite
     end
+
+    def arguments
+      @arguments.flatten.join(' ').to_s
+    end
+
+    protected
+    def build_arguments
+      @arguments << "'#{@url}'"
+    end
+
   end
 
   class AxelDownloader < Downloader
@@ -61,7 +71,15 @@ module RGet
 
     def download
       super
-      return Kernel.system "#{BIN} '#{@url}' #{@options.quiet ? '-q' : '-a'} -o '#{@file}'"
+      return Kernel.system "#{BIN} #{arguments}"
+    end
+
+    private
+    def build_arguments
+      super
+      @arguments << (@options.quiet ? '-q' : '-a')
+      @arguments << '-o'
+      @arguments << "'#{@file}'"
     end
 
   end
@@ -100,7 +118,16 @@ module RGet
 
     def download
       super
-      return Kernel.system "#{BIN} -c '#{@url}' #{@options.quiet ? '-q' : ''} -O '#{@file}'"
+      return Kernel.system "#{BIN} #{arguments}"
+    end
+
+    private
+    def build_arguments
+      super
+      @arguments << '-q' if @options.quiet
+      @arguments << '-c'
+      @arguments << '-O'
+      @arguments << "'#{@file}'"
     end
 
   end
