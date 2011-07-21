@@ -4,7 +4,7 @@ require "rget/version"
 
 Gem::Specification.new do |s|
   s.name        = "rget"
-  s.version     = Rget::VERSION
+  s.version     = RGet::VERSION
   s.authors     = ["Peter Hoeg"]
   s.email       = ["p.hoeg@northwind.sg"]
   s.homepage    = ""

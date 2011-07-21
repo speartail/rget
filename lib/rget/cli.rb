@@ -1,5 +1,7 @@
 module RGet
 
+  # TODO: :quiet vs :progress
+
   class CLI
 
     def self.run(arguments)
