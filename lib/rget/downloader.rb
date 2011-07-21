@@ -10,13 +10,15 @@ module RGet
   # @abstract Subclass and override {#download} to implement a custom Downloader
   class Downloader
 
+    DEFAULT_OPTIONS = { :quiet => false, :overwrite => false }
+
     attr_reader :url, :file, :options
 
     # Create new Downloader
     # @param [Url] The URL to download
     # @param [File] Where to write the file on the local filesystem
     # @param [Options] A hash of options
-    #   :progress - show progress
+    #   :quiet - show no output
     #   :overwrite - overwrite target file if it exists
 
     def initialize(url, target, options = {})
@@ -42,7 +44,7 @@ module RGet
       rescue
         raise RGet::AppError, "Unable to create destination directory. Aborting..."
       end
-      @options = OpenStruct.new(({:quiet => false, :overwrite => false}.merge(options)))
+      @options = OpenStruct.new(DEFAULT_OPTIONS.merge(options))
       @arguments = []
       build_arguments
     end
@@ -56,6 +58,10 @@ module RGet
 
     def arguments
       @arguments.flatten.join(' ').to_s
+    end
+
+    def valid?
+      !@url.empty?
     end
 
     protected

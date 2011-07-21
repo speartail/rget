@@ -4,48 +4,55 @@ describe RGet::Downloader do
 
   before(:each) do
     @url = 'http://www.google.com.sg'
-    @file_does_exist = Tempfile.new('rget')
-    @file_does_not_exist = Tempfile.name('tegr')
+    @file_exists = Tempfile.new('rget')
+    @file_not_exists = Tempfile.name('tegr')
+    @rget_exists = RGet::Downloader.new(@url, @file_exists)
+    @rget_not_exists = RGet::Downloader.new(@url, @file_not_exists)
+    @rget_with_parms = RGet::Downloader.new(@url, @file_not_exists, {:quiet => true, :overwrite => true})
+    # downloader specific
+    @axel_not_exists = RGet::AxelDownloader.new(@url, @file_not_exists)
+    @wget_not_exists = RGet::WGetDownloader.new(@url, @file_not_exists)
+    Kernel.stub!(:system)
   end
 
   describe 'being created' do
 
-    it 'should raise an AppError if the URL is invalid' do
-      RGet::Downloader.new('some   url87gf4^^r3&\\34', @file).should raise_error(RGet::AppError)
-    end
+    subject { @rget_not_exists }
 
-    subject {
-      RGet::Downloader.new(@url, @file_does_not_exist)
-    }
+    it 'should raise an AppError if the URL is invalid' do
+      lambda { RGet::Downloader.new('some   url87gf4^^r3&\\34', @file)}.should raise_error(RGet::AppError)
+    end
 
     it 'should set url properly' do
       subject.url.should == @url
     end
 
     it 'should set file properly' do
-      subject.file.should == @file_does_not_exist
+      subject.file.should == @file_not_exists
     end
 
-    it 'should allow being run with just a URL' do
+    specify { subject.should be_valid }
 
-    end
+    it 'should allow being run with just a URL'
 
-    describe 'with parameters' do
+    describe 'without options passed' do
 
-      subject { RGet::Downloader.new(@url, @file_does_not_exist, {}) }
-
-      it 'should default to no progress' do
+      it 'should default to showing output' do
         subject.options.quiet.should == false
       end
 
-      it 'should default to no overwrite' do
+      it 'should default to not overwrite' do
         subject.options.overwrite.should == false
       end
 
-      subject { RGet::Downloader.new(@url, @file_does_not_exist, {:progress => true, :overwrite => true}) }
+    end
+
+    describe 'with options passed' do
+
+      subject { @rget_with_parms }
 
       it 'should support :quiet' do
-        subject.options.progress.should == true
+        subject.options.quiet.should == true
       end
 
       it 'should support :overwrite' do
@@ -57,10 +64,8 @@ describe RGet::Downloader do
 
   describe 'downloading' do
 
-    subject {
-      Kernel.stub!(:system)
-      RGet::Downloader.new(@url, @file_does_exist)
-    }
+
+    subject { @rget_exists }
 
     it 'should check if the file exists before running any downloads' do
       File.should_receive(:exists?).once
@@ -74,10 +79,8 @@ describe RGet::Downloader do
   end
 
   describe RGet::AxelDownloader do
-    subject {
-      Kernel.stub!(:system)
-      RGet::AxelDownloader.new(@url, @file_does_not_exist)
-    }
+
+    subject { @axel_not_exists }
 
     it 'should be creatable' do
       subject.should_not be_nil
@@ -86,13 +89,13 @@ describe RGet::Downloader do
     describe 'being called' do
 
       it 'should run in a shell' do
-        Kernel.should_receive(:system).with("#{RGet::AxelDownloader::BIN} '#{@url}' -a -o '#{@file_does_not_exist}'")
+        Kernel.should_receive(:system).with("#{RGet::AxelDownloader::BIN} '#{@url}' -a -o '#{@file_not_exists}'")
         subject.download
       end
 
-      it 'should handle the :progress parameter' do
-        @dl = RGet::AxelDownloader.new(@url, @file_does_not_exist, { :progress => true })
-        @dl.arguments.include?('-a').should be_true
+      it 'should handle the :quiet parameter' do
+        @dl = RGet::AxelDownloader.new(@url, @file_not_exists, { :quiet => true })
+        @dl.arguments.include?('-a').should_not be_true
         @dl.download
       end
 
@@ -102,19 +105,16 @@ describe RGet::Downloader do
 
   describe RGet::WGetDownloader do
 
-    subject {
-      Kernel.stub!(:system)
-      RGet::WGetDownloader.new(@url, @file_does_not_exist)
-    }
+    subject { @wget_not_exists }
 
     it 'should be creatable' do
       subject.should_not be_nil
     end
 
-    describe 'being called' do
+    context 'being called' do
 
-      it 'should happen in a shell' do
-        Kernel.should_receive(:system).with("#{RGet::WGetDownloader::BIN} '#{@url}' -c -O '#{@file_does_not_exist}'")
+      it 'should run in a shell' do
+        Kernel.should_receive(:system).with("#{RGet::WGetDownloader::BIN} '#{@url}' -c -O '#{@file_not_exists}'")
         subject.download
       end
 
@@ -122,9 +122,9 @@ describe RGet::Downloader do
         subject.arguments.include?('-c').should be_true
       end
 
-      it 'should handle the :progress parameter' do
-        @dl = RGet::WGetDownloader.new(@url, @file_does_not_exist, { :progress => true })
-        @dl.arguments.include?('-q').should be_false
+      it 'should handle the :quiet parameter' do
+        @dl = RGet::WGetDownloader.new(@url, @file_not_exists, { :quiet => true })
+        @dl.arguments.include?('-q').should be_true
       end
 
     end

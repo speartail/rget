@@ -1,7 +1,5 @@
 module RGet
 
-  # TODO: :quiet vs :progress
-
   class CLI
 
     def self.run(arguments)
@@ -17,7 +15,7 @@ module RGet
         raise NotImplementedError, "Sorry, not implemented yet!"
       end
       options[:quiet] = false
-      opts.on('-q', '--quiet', 'Do not show progress') { options[:quiet] = true }
+      opts.on('-q', '--quiet', 'Do not show output') { options[:quiet] = true }
       options[:overwrite] = false
       opts.on('-w', '--write', 'Overwrite existing files') { options[:overwrite] = true }
       begin
