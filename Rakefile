@@ -15,7 +15,7 @@ CLOBBER.include(OUTPUT)
 require 'yard'
 YARD::Rake::YardocTask.new do |t|
   t.files   = [ 'lib/**/*.rb' ]
-  t.options = [ '' ]
+  t.options = [ '--files', 'LICENSE.txt' ]
 end
 
 desc 'Run default documentation tool'
